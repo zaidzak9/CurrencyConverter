@@ -11,6 +11,6 @@ import retrofit2.http.Query
 
 interface Api {
 
-    @GET("api.exchangeratesapi.io/v1/latest?access_key=ab88d34f71b422892198d25b26ce8de4")
+    @GET("v1/latest?access_key=ab88d34f71b422892198d25b26ce8de4")
     suspend fun getCurrencyRates(@Query("base") base:String) : Response<CurrencyResponse>
 }
