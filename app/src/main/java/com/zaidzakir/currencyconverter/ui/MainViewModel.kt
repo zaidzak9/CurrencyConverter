@@ -2,6 +2,7 @@ package com.zaidzakir.currencyconverter.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zaidzakir.currencyconverter.model.Rates
+import com.zaidzakir.currencyconverter.repository.DefaultMainRepository
 import com.zaidzakir.currencyconverter.repository.MainRepository
 import com.zaidzakir.currencyconverter.util.DispatcherProvider
 import com.zaidzakir.currencyconverter.util.Resource
@@ -53,7 +54,7 @@ class MainViewModel @Inject constructor(
                     if(rate == null) {
                         _conversion.value = CurrencyEvent.Failure("Unexpected error")
                     } else {
-                        val convertedCurrency = round(fromAmount * 100) /100
+                        val convertedCurrency = round(fromAmount * rate * 100) /100
                         _conversion.value = CurrencyEvent.Success(
                             "$fromAmount $fromCurrency = $convertedCurrency $toCurrency"
                         )
@@ -63,11 +64,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getRateForCurrency(currency: String, rates: Rates) = when (currency) {
+    private fun getRateForCurrency(currency: String, rates: Rates) : Double = when (currency) {
         "CAD" -> rates.CAD
         "HKD" -> rates.HKD
         "ISK" -> rates.ISK
-        "EUR" -> rates.EUR
+        "EUR" -> rates.EUR.toDouble()
         "PHP" -> rates.PHP
         "DKK" -> rates.DKK
         "HUF" -> rates.HUF
@@ -96,6 +97,6 @@ class MainViewModel @Inject constructor(
         "GBP" -> rates.GBP
         "KRW" -> rates.KRW
         "MYR" -> rates.MYR
-        else -> null
+        else -> 0.0
     }
 }

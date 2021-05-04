@@ -10,7 +10,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -18,21 +17,23 @@ import javax.inject.Singleton
 /**
  *Created by Zaid Zakir
  */
+private const val BASE_URL = "https://api.exchangeratesapi.io/"
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Singleton
     @Provides
-    suspend fun provideCurrencyApi(): Api = Retrofit.Builder()
-        .baseUrl("http://api.exchangeratesapi.io/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(Api::class.java)
+    fun provideCurrencyApi(): Api = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(Api::class.java)
 
     @Singleton
     @Provides
-    fun provideMainRepository(api:Api) : MainRepository = DefaultMainRepository(api)
+    fun provideMainRepository(api: Api): MainRepository = DefaultMainRepository(api)
 
     @Singleton
     @Provides
@@ -46,5 +47,4 @@ object AppModule {
         override val unconfined: CoroutineDispatcher
             get() = Dispatchers.Unconfined
     }
-
 }

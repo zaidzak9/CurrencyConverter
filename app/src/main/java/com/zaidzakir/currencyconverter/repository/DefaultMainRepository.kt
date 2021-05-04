@@ -1,6 +1,7 @@
 package com.zaidzakir.currencyconverter.repository
 
 import com.zaidzakir.currencyconverter.model.Api
+import com.zaidzakir.currencyconverter.model.CurrencyResponse
 import com.zaidzakir.currencyconverter.util.Resource
 import java.lang.Exception
 import javax.inject.Inject
